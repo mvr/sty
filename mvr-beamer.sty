@@ -1,0 +1,90 @@
+\ProvidesPackage{mvr-beamer}
+
+\usetheme{default}
+\usecolortheme{beaver}
+\usefonttheme[stillsansseriflarge]{serif}
+%\setbeamerfont{section title}{size*={20pt}{20pt}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{section page}
+{
+    \begin{centering}
+    \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+    \end{centering}
+}
+\defbeamertemplate{footline}{justpage}
+{%
+  \hfill%
+  \usebeamercolor[fg]{page number in head/foot}%
+  \usebeamerfont{page number in head/foot}%
+  \insertpagenumber\kern1em\vskip4pt%
+}
+\setbeamertemplate{footline}[justpage]
+%\setbeamertemplate{page number in head/foot}[framenumber]
+
+%\AtBeginSection{\frame{\sectionpage}}
+%\usepackage{pgfpages}
+%\setbeameroption{show notes on second screen}
+%
+%\makeatletter
+%\setbeamertemplate{theorem begin}{\vspace{1ex}%
+%  {\usebeamercolor[fg]{block title}\usebeamerfont*{block title}
+%  \inserttheoremname\ %
+%  \ifx\inserttheoremaddition\@empty\else (\inserttheoremaddition)\fi%
+%  } \normalfont }
+%\setbeamertemplate{theorem end}{\vspace{0ex}} % Okay because we have \parskip
+%\makeatother
+
+%%%%%%%%%%%%%%%%%%%%
+%% bib stuff
+
+\DeclareNameAlias{sortname}{first-last}
+
+\newcommand*{\selfname}[3]{%
+  \def\lastname{#1}%
+  \def\firstname{#2}%
+  \def\firstinit{#3}}
+\selfname{Riley}{Mitchell}{M}
+
+% Patch new definitions
+\renewcommand{\mkbibnamegiven}[1]{%
+  \ifboolexpr{ ( test {\ifdefequal{\firstname}{\namepartgiven}} or test {\ifdefequal{\firstinit}{\namepartgiven}} ) and test {\ifdefequal{\lastname}{\namepartfamily}} }
+  {}{#1}%
+}
+
+\renewcommand{\mkbibnamefamily}[1]{%
+  \ifboolexpr{ ( test {\ifdefequal{\firstname}{\namepartgiven}} or test {\ifdefequal{\firstinit}{\namepartgiven}} ) and test {\ifdefequal{\lastname}{\namepartfamily}} }
+  {R.}{#1}%
+}
+
+\DeclareCiteCommand{\arxivcite}[\mkbibbrackets]
+  {\usebibmacro{prenote}}
+  {%\usebibmacro{citeindex}%
+   %\usebibmacro{cite}%
+   %\newunit
+   \printfield{eprint}%
+   }
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\AtEveryBibitem{
+   \clearfield{month}
+   \clearfield{series}
+   \clearfield{venue}
+   \clearname{editor}
+   \clearlist{publisher}
+   \clearlist{location} % alias to field 'address'
+%   \clearfield{doi}
+%   \clearfield{url}
+   \clearfield{venue}
+   \clearfield{issn}
+   \clearfield{isbn}
+   \clearfield{urldate}
+   \clearfield{eventdate}
+   \clearfield{pages}
+   %\clearfield{booktitle}
+   %\clearfield{journaltitle}
+   %\clearfield{number}
+   %\clearfield{volume}
+}

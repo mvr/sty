@@ -1,0 +1,17 @@
+\ProvidesPackage{mvr-bibtricks}
+
+\DeclareFieldFormat{hal}{%
+  \mkbibacro{HAL}\addcolon\space
+  \ifhyperref
+    {\href{https://hal.archives-ouvertes.fr/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}}
+
+\DeclareFieldAlias{eprint:hal}{hal}
+\DeclareFieldAlias{eprint:HAL}{eprint:hal}
+
+\renewbibmacro*{eprint}{%
+  \printfield{hal}%
+  \newunit\newblock%
+  \iffieldundef{eprinttype}
+    {\printfield{eprint}}
+    {\printfield[eprint:\strfield{eprinttype}]{eprint}}}
