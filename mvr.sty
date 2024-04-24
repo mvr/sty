@@ -1,8 +1,13 @@
 \ProvidesPackage{mvr}
 
+\usepackage[T1]{fontenc}
+
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{amsthm}
+
+% Remove the * from the \thanks footnote
+\def\thanks#1{\protected@xdef\@thanks{\@thanks\protect\footnotetext{#1}}}
 
 \usepackage{microtype}
 
@@ -18,7 +23,6 @@
 \newcolumntype{B}{>{{}}c<{{}}}
 
 \usepackage{xcolor}
-\definecolor{darkgreen}{rgb}{0,0.45,0}
 
 % replace mathfrak
 \DeclareFontFamily{U}{yswab}{}
@@ -41,10 +45,9 @@
 \@ifclassloaded{beamer}{}{
   %% These break theorem environments in beamer
   \usepackage[capitalise]{cleveref}
-  \hypersetup{colorlinks,citecolor=darkgreen,linkcolor=darkgreen}
+  \hypersetup{colorlinks,allcolors=[rgb]{0.1,0.1,0.4}}
 %  \hypersetup{colorlinks,citecolor=black,linkcolor=black}
 }
-
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
@@ -66,22 +69,22 @@
 \newtheorem{examples}[theorem]{Examples}
 \newtheorem{question}{Question}
 
-% Fix emptyset symbol
+%% Fix emptyset symbol
 \let\oldemptyset\emptyset%
 \renewcommand{\emptyset}{\varnothing}
 
-% Fix wedge/smash
+%% Fix wedge/smash
 \let\oldwedge\wedge%
 \renewcommand{\wedge}{\vee}
 \newcommand{\topsmash}{\oldwedge}
 
-% Fix equiv and defeq
+%% Fix equiv and defeq
 \let\oldequiv\equiv%
 \renewcommand{\equiv}{\simeq}
 \newcommand{\defeq}{\oldequiv}
 \newcommand{\ndefeq}{\not\defeq}
 
-% Shape modality
+%% Shape modality
 \usepackage[safe]{tipa}
 \newcommand{\esh}{\ensuremath{\text{\textesh}}}
 \newcommand{\shape}{\ensuremath{\mathord{\raisebox{0.5pt}{\text{\rm\esh}}}}}
@@ -97,7 +100,6 @@
 %% Basic Judgements
 \newcommand{\rulen}[1]{\textsc{#1}}
 \newcommand{\yields}{\vdash}
-\newcommand{\qyields}{\Vdash}
 \newcommand{\cbar}{\, | \,}
 \newcommand{\judge}{\mathcal{J}}
 \newcommand{\freshfor}{\mathbin{\#}}
@@ -105,7 +107,6 @@
 \newcommand{\ctx}{\,\,\mathsf{ctx}}
 \newcommand{\type}{\,\,\mathsf{type}}
 \newcommand{\tele}{\,\,\mathsf{tele}}
-\newcommand{\ext}{\,\,\mathsf{ext}}
 
 \newcommand{\rawctx}{\,\,\mathsf{rawctx}}
 \newcommand{\rawtele}{\,\,\mathsf{rawtele}}
@@ -113,13 +114,20 @@
 
 % Ordinary HoTT notation
 \newcommand{\Idsym}{\mathsf{Id}}
-%\newcommand{\Id}[3]{\mathsf{Id}_{{#1}}(#2,#3)}
+% \newcommand{\Id}[3]{\mathsf{Id}_{{#1}}(#2,#3)}
+
+\newcommand{\pathcat}{%
+  \mathchoice{\mathbin{\raisebox{0.5ex}{$\displaystyle\centerdot$}}}%
+             {\mathbin{\raisebox{0.5ex}{$\centerdot$}}}%
+             {\mathbin{\raisebox{0.25ex}{$\scriptstyle\,\centerdot\,$}}}%
+             {\mathbin{\raisebox{0.1ex}{$\scriptscriptstyle\,\centerdot\,$}}}
+           }
+           
 \newcommand*{\trunc}[2]{\mathopen{}\left\Vert #2\right\Vert_{#1}\mathclose{}}
 \newcommand*{\strunc}[2]{\mathopen{}\left\Vert #2\right\Vert_{#1}^s\mathclose{}}
 \newcommand*{\univ}{\mathcal{U}}
 \newcommand*{\NN}{\mathbb{N}}
 \newcommand*{\ZZ}{\mathbb{Z}}
-%\newcommand*{\true}{\star}
 \newcommand*{\id}{\mathsf{id}}
 \newcommand*{\proj}{\mathsf{pr}}
 \newcommand*{\pushpr}{\mathbin{\wasysquare}}
@@ -128,7 +136,6 @@
 \newcommand*{\transp}{\mathsf{tr}}
 \newcommand*{\isContr}{\mathsf{isContr}}
 \newcommand*{\isEquiv}{\mathsf{isEquiv}}
-\newcommand*{\isSpace}{\mathsf{isSpace}}
 \newcommand*{\isModal}{\mathsf{isModal}}
 \newcommand*{\inl}{\mathsf{inl}}
 \newcommand*{\inr}{\mathsf{inr}}
@@ -139,12 +146,10 @@
 \newcommand*{\const}{\mathsf{const}}
 \newcommand*{\fib}{\mathsf{fib}}
 \newcommand*{\case}{\mathsf{case}}
-\newcommand*{\refl}[1]{\mathsf{refl}_{#1}}
+\newcommand*{\ind}[3]{\mathsf{let} \; {#2} := {#1} \, \mathsf{in} \, {#3}}
 \newcommand*{\pathind}[3]{\mathsf{let} \; \refl{#2} := {#1} \, \mathsf{in} \, {#3}}
-\newcommand{\bang}{\mathord{!}}
-\newcommand{\ind}[3]{\mathsf{let} \; {#2} := {#1} \, \mathsf{in} \, {#3}}
-
-%\usepackage{pict2e}
+\newcommand*{\refl}[1]{\mathsf{refl}_{#1}}
+\newcommand*{\bang}{\mathord{!}}
 
 \newcommand{\lbparen}{%
   \mathopen{%
@@ -176,28 +181,9 @@
   }%
 }
 
-\DeclareMathOperator*{\bigsmash}{%
-\mathchoice%
-  {\ooalign{\raisebox{0.10\height}{\scalebox{0.85}{$\displaystyle\sum$}}\cr\hidewidth\raisebox{-0.13\height}{\scalebox{1.8}{$\displaystyle\bigcirc$}}\hidewidth\cr}}
-  {\ooalign{\raisebox{0\height}{\scalebox{1.1}{$\textstyle\bigcirc$}}\cr\hidewidth\raisebox{0.12\height}{\scalebox{0.86}{$\textstyle\sum$}}\hidewidth\cr}}
-  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.25\height}{\scalebox{0.82}{$\hspace{0.2em}\scriptstyle\sum$}}\cr}}
-  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.25\height}{\scalebox{0.82}{$\hspace{0.2em}\scriptstyle\sum$}}\cr}}
-}
-\def\otimessym{\textstyle\bigsmash}
-
-\DeclareMathOperator*{\bighom}{%
-\mathchoice%
-  {\ooalign{\raisebox{0.10\height}{\scalebox{0.85}{$\displaystyle\prod$}}\cr\hidewidth\raisebox{-0.13\height}{\scalebox{1.8}{$\displaystyle\bigcirc$}}\hidewidth\cr}}
-  {\ooalign{\raisebox{0\height}{\scalebox{1.1}{$\textstyle\bigcirc$}}\cr\hidewidth\raisebox{0.12\height}{\scalebox{0.82}{$\textstyle\prod$}}\hidewidth\cr}}
-  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.28\height}{\scalebox{0.75}{$\hspace{0.2em}\scriptstyle\prod$}}\cr}}
-  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.28\height}{\scalebox{0.75}{$\hspace{0.2em}\scriptstyle\prod$}}\cr}}
-}
-\def\lollisym{\textstyle\bighom}
-
 %%%%%%%%%%%%%%
 %%% Stolen ("adapted") from Mike:
 %%% Big smash and Big hom formatted in the style of the HoTT book
-%%% Todo: need to "eat" following ssh and hmm
 %
 %%%% Dependent products %%%
 %\def\prdsym{\textstyle\prod}
@@ -304,7 +290,7 @@
 
 %%%%%%%%%%%%%%
 %%% Stolen ("adapted") from Egbert:
-%%% More compact sm, prd, ssh and hmm, with the first argument
+%%% More compact sm, prd, with the first argument
 %%% to the lower right rather than vertically below.
 
 \def\smsym{\sum}
@@ -315,32 +301,14 @@
 \newcommand{\@theprd}[1]{\prdsym_{(#1)}}
 \newcommand{\prd}[1]{\@ifnextchar\bgroup{\@prd{#1}\prd}{\@prd{#1}}}
 \newcommand{\@prd}[1]{\mathchoice{{\textstyle\@theprd{#1}}}{\@theprd{#1}}{\@theprd{#1}}{\@theprd{#1}}}
-\def\sshsym{\bigsmash}
-\newcommand{\@thessh}[1]{\sshsym_{(#1)}}
-\newcommand{\ssh}[1]{\@ifnextchar\bgroup{\@ssh{#1}\ssh}{\@ssh{#1}}}
-\newcommand{\@ssh}[1]{\mathchoice{{\textstyle\@thessh{#1}}}{\@thessh{#1}}{\@thessh{#1}}{\@thessh{#1}}}
-\def\hmmsym{\bighom}
-\newcommand{\@thehmm}[1]{\hmmsym_{(#1)}}
-\newcommand{\hmm}[1]{\@ifnextchar\bgroup{\@hmm{#1}\hmm}{\@hmm{#1}}}
-\newcommand{\@hmm}[1]{\mathchoice{{\textstyle\@thehmm{#1}}}{\@thehmm{#1}}{\@thehmm{#1}}{\@thehmm{#1}}}
 
 %%%%%%%%%%%%%%
-%%% Even more compact Agda style sm, prd, ssh and hmm.
+%%% Even more compact Agda style sm, prd
 
 %\makeatletter
 %\newcommand{\@thesum}[1]{(#1) \times}
 %\newcommand{\sm}[1]{\@ifnextchar\bgroup{\@thesum{#1}\sm}{\@thesum{#1}}}
 %\newcommand{\@theprd}[1]{(#1) \to}
 %\newcommand{\prd}[1]{\@ifnextchar\bgroup{\@theprd{#1}\prd}{\@theprd{#1}}}
-%\newcommand{\@thessh}[1]{(#1) \otimes}
-%\newcommand{\ssh}[1]{\@ifnextchar\bgroup{\@thessh{#1}\ssh}{\@thessh{#1}}}
-%\newcommand{\@thehmm}[1]{#1) \lolli}
-%\newcommand{\hmm}[1]{\@ifnextchar\bgroup{\@thehmm{#1}\hmm}{\@thehmm{#1}}}
 %\makeatother
 
-\newcommand{\pathcat}{%
-  \mathchoice{\mathbin{\raisebox{0.5ex}{$\displaystyle\centerdot$}}}%
-             {\mathbin{\raisebox{0.5ex}{$\centerdot$}}}%
-             {\mathbin{\raisebox{0.25ex}{$\scriptstyle\,\centerdot\,$}}}%
-             {\mathbin{\raisebox{0.1ex}{$\scriptscriptstyle\,\centerdot\,$}}}
-}

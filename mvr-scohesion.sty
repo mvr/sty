@@ -1,0 +1,36 @@
+\ProvidesPackage{mvr-scohesion}
+
+\newcommand*{\isSpace}{\mathsf{isSpace}}
+
+
+\DeclareMathOperator*{\bigsmash}{%
+\mathchoice%
+  {\ooalign{\raisebox{0.10\height}{\scalebox{0.85}{$\displaystyle\sum$}}\cr\hidewidth\raisebox{-0.13\height}{\scalebox{1.8}{$\displaystyle\bigcirc$}}\hidewidth\cr}}
+  {\ooalign{\raisebox{0\height}{\scalebox{1.1}{$\textstyle\bigcirc$}}\cr\hidewidth\raisebox{0.12\height}{\scalebox{0.86}{$\textstyle\sum$}}\hidewidth\cr}}
+  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.25\height}{\scalebox{0.82}{$\hspace{0.2em}\scriptstyle\sum$}}\cr}}
+  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.25\height}{\scalebox{0.82}{$\hspace{0.2em}\scriptstyle\sum$}}\cr}}
+}
+\def\otimessym{\textstyle\bigsmash}
+
+\DeclareMathOperator*{\bighom}{%
+\mathchoice%
+  {\ooalign{\raisebox{0.10\height}{\scalebox{0.85}{$\displaystyle\prod$}}\cr\hidewidth\raisebox{-0.13\height}{\scalebox{1.8}{$\displaystyle\bigcirc$}}\hidewidth\cr}}
+  {\ooalign{\raisebox{0\height}{\scalebox{1.1}{$\textstyle\bigcirc$}}\cr\hidewidth\raisebox{0.12\height}{\scalebox{0.82}{$\textstyle\prod$}}\hidewidth\cr}}
+  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.28\height}{\scalebox{0.75}{$\hspace{0.2em}\scriptstyle\prod$}}\cr}}
+  {\ooalign{\raisebox{.1\height}{\scalebox{0.75}{$\textstyle\bigcirc$}}\cr\raisebox{0.28\height}{\scalebox{0.75}{$\hspace{0.2em}\scriptstyle\prod$}}\cr}}
+}
+\def\lollisym{\textstyle\bighom}
+
+\def\sshsym{\bigsmash}
+\newcommand{\@thessh}[1]{\sshsym_{(#1)}}
+\newcommand{\ssh}[1]{\@ifnextchar\bgroup{\@ssh{#1}\ssh}{\@ssh{#1}}}
+\newcommand{\@ssh}[1]{\mathchoice{{\textstyle\@thessh{#1}}}{\@thessh{#1}}{\@thessh{#1}}{\@thessh{#1}}}
+\def\hmmsym{\bighom}
+\newcommand{\@thehmm}[1]{\hmmsym_{(#1)}}
+\newcommand{\hmm}[1]{\@ifnextchar\bgroup{\@hmm{#1}\hmm}{\@hmm{#1}}}
+\newcommand{\@hmm}[1]{\mathchoice{{\textstyle\@thehmm{#1}}}{\@thehmm{#1}}{\@thehmm{#1}}{\@thehmm{#1}}}
+
+%\newcommand{\@thessh}[1]{(#1) \otimes}
+%\newcommand{\ssh}[1]{\@ifnextchar\bgroup{\@thessh{#1}\ssh}{\@thessh{#1}}}
+%\newcommand{\@thehmm}[1]{(#1) \lolli}
+%\newcommand{\hmm}[1]{\@ifnextchar\bgroup{\@thehmm{#1}\hmm}{\@thehmm{#1}}}
